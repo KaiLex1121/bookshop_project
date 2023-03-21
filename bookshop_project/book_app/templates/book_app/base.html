@@ -1,7 +1,15 @@
 <h1> Главная страница книжной полки </h1>
 
+<br>
+
+<h2> Общее количество книг на полке: {{ books_count.id__count }} </h2>
+
+<br>
+
+<h2> Наши книги: </h2>
+
 {% for book in books %}
 
-    <h2> {{book.title}} </h2>
+    <h3> {{book.title}} </h3>
 
 {% endfor %}
