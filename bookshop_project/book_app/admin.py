@@ -4,7 +4,7 @@ from .models import Book
 
 class BookAdmin(admin.ModelAdmin):
 
-    list_display = ('title',)
+    list_display = ('title', 'rating')
     prepopulated_fields = {
         "slug": ('title',)
     }
