@@ -3,6 +3,25 @@ from .models import Book
 from django.db.models import QuerySet
 from django.utils.text import slugify
 from django.http import HttpRequest
+from typing import Any, Optional, List, Tuple
+
+
+class RatingFilter(admin.SimpleListFilter):
+
+    title = 'Фильтр по рейтингу'
+    parameter_name = 'rating'
+
+    def lookups(self, request: Any, model_admin: Any) -> List[Tuple[Any, str]]:
+        return [
+            ('0-49', 'Хуже среднего'),
+            ('50-100', 'Лучше среднего')
+        ]
+
+    def queryset(self, request: Any, queryset: QuerySet[Any]) -> Optional[QuerySet[Any]]:
+        if self.value():
+            rating = self.value().split('-')
+            lowest_rating, highest_rating = rating[0], rating[1]
+            return queryset.filter(rating__gte=lowest_rating).filter(rating__lte=highest_rating)
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -11,6 +30,8 @@ class BookAdmin(admin.ModelAdmin):
     ordering = ('-title', 'rating')
     actions = ('set_slug',)
     search_fields = ('title',)
+    list_editable = ('rating',)
+    list_filter = [RatingFilter]
     prepopulated_fields = {
         "slug": ('title',)
     }
