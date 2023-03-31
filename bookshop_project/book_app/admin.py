@@ -1,9 +1,26 @@
 from django.contrib import admin
-from .models import Book
+from .models import Book, BookAuthor, Character
 from django.db.models import QuerySet
 from django.utils.text import slugify
 from django.http import HttpRequest
 from typing import Any, Optional, List, Tuple
+
+
+@admin.register(Character)
+class CharacterAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'character_type')
+    list_editable = ('description', 'character_type')
+    prepopulated_fields = {
+        "slug": ('name',)
+    }
+
+
+@admin.register(BookAuthor)
+class BookAuthorAdmin(admin.ModelAdmin):
+    list_display = ('name', 'last_name', 'slug')
+    prepopulated_fields = {
+        "slug": ('name', 'last_name')
+    }
 
 
 class RatingFilter(admin.SimpleListFilter):
@@ -24,17 +41,21 @@ class RatingFilter(admin.SimpleListFilter):
             return queryset.filter(rating__gte=lowest_rating).filter(rating__lte=highest_rating)
 
 
+@admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
 
-    list_display = ('title', 'rating', 'status_by_rating', 'book_type')
+    list_display = ('title', 'rating', 'author')
     ordering = ('-title', 'rating')
     actions = ('set_slug',)
     search_fields = ('title',)
-    list_editable = ('rating',)
+    list_editable = ('rating', 'author')
     list_filter = [RatingFilter]
+    filter_horizontal = ('characters',)
     prepopulated_fields = {
         "slug": ('title',)
     }
+
+
 
     @admin.display(description='Book Status')
     def status_by_rating(self, book: Book) -> str:
@@ -55,6 +76,3 @@ class BookAdmin(admin.ModelAdmin):
             request,
             message=f'Было обновлено {query_set.count()} записей'
         )
-
-
-admin.site.register(Book, BookAdmin)
