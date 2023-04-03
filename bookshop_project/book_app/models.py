@@ -24,8 +24,17 @@ class Character(models.Model):
 
 class BookAuthor(models.Model):
 
+    M = 'M'
+    F = 'F'
+
+    GENDER_CHOICES = (
+        (M, 'Мужчина'),
+        (F, 'Женщина')
+    )
+
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    gender = models.CharField(max_length=1, default=M, choices=GENDER_CHOICES)
     slug = models.SlugField(null=False, db_index=True)
 
     def __str__(self) -> str:
