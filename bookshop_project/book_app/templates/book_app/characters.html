@@ -1,0 +1,7 @@
+<h1> Все персонажи </h1>
+
+{% for character in items %}
+
+<h2> <a href="{% url 'character_by_slug' character.slug %}"> {{character.name}} </a> </h2>
+
+{% endfor %}

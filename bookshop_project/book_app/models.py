@@ -12,7 +12,6 @@ class Character(models.Model):
         (MINOR, 'Второстепенный персонаж')
     )
 
-
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100, null=True, blank=True)
     character_type = models.CharField(max_length=5, choices=CHARACTER_TYPE_CHOICES)
@@ -62,7 +61,6 @@ class Book(models.Model):
     book_type = models.CharField(null=True, max_length=6, choices=BOOK_TYPES_CHOICES, blank=True)
     author = models.ForeignKey(BookAuthor, on_delete=models.PROTECT, null=True)
     characters = models.ManyToManyField(Character)
-
 
     def __str__(self) -> str:
         return str(self.__dict__)

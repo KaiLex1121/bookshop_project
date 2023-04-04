@@ -1,6 +1,6 @@
 <h1> Все авторы </h1>
 
-{% for author in authors %}
+{% for author in items %}
 
     <h2> <a href="{% url 'author_by_slug' author.slug %}"> {{author.name}} {{author.last_name}} </a> </h2>
 

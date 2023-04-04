@@ -55,8 +55,6 @@ class BookAdmin(admin.ModelAdmin):
         "slug": ('title',)
     }
 
-
-
     @admin.display(description='Book Status')
     def status_by_rating(self, book: Book) -> str:
         if book.rating < 50:
