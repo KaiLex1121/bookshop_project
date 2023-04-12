@@ -1,5 +1,17 @@
-<h1> Информация о персонаже </h1>
+<h2> Информация об перснаже: </h2>
 
-<h2> Имя - {{ item.name }} </h2>
+<h3> Имя - {{ item.name }} </h3>
 
-<h2> Описание: {{ item.description }} </h2>
+<h3> Описание: {{ item.description }} </h3>
+
+<hr>
+
+<h2> Книги, в которых есть персонаж: </h2>
+
+<ul>
+    {% for book in item.book_set.all %}
+        <li>
+            <h3> {{book.title}} </h3>
+        </li>
+    {% endfor %}
+</ul>

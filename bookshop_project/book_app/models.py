@@ -9,7 +9,7 @@ class Character(models.Model):
 
     CHARACTER_TYPE_CHOICES = (
         (MAIN, 'Главный персонаж'),
-        (MINOR, 'Второстепенный персонаж')
+        (MINOR, 'Втоb oростепенный персонаж')
     )
 
     name = models.CharField(max_length=100)

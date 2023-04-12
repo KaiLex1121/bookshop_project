@@ -1,2 +1,17 @@
-<h2> Автор - {{item.name}} {{item.last_name}} </h2>
-<h2> Пол - {{item.get_gender_display}} </h2>
+<h2> Информация об авторе: </h2>
+
+<h3> Автор - {{item.name}} {{item.last_name}} </h3>
+
+<h3> Пол - {{item.get_gender_display}} </h3>
+
+<hr>
+
+<h2> Книги автора: </h2>
+
+<ul>
+    {% for book in item.book_set.all %}
+        <li>
+            <h3> {{book.title}} </h3>
+        </li>
+    {% endfor %}
+</ul>

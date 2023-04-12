@@ -66,6 +66,17 @@ def get_authors(request):
     return show_items_from_model(request, the_model=models.BookAuthor, html_path='book_app/authors.html')
 
 
+
+def get_book_by_slug(request, book_slug):
+
+    return get_item_by_slug(request=request, the_model=models.Book, item_slug=book_slug, html_path='book_app/book.html')
+
+
+def get_book_by_id(request: HttpRequest, id: int) -> HttpResponseRedirect:
+
+    return get_item_by_id(request=request, the_model=models.Book, item_id=id, url_alias='book_by_slug')
+
+
 def get_books_mainpage(request):
 
     books = models.Book.objects.all()
@@ -77,4 +88,4 @@ def get_books_mainpage(request):
         "books_count": books_count
     }
 
-    return render(request, 'book_app/base.html', context=context_data)
+    return render(request, 'book_app/books.html', context=context_data)
