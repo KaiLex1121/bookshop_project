@@ -1,17 +1,25 @@
-<h2> Информация об авторе: </h2>
+{% extends 'base.html' %}
 
-<h3> Автор - {{item.name}} {{item.last_name}} </h3>
+{% block title %} {{item}} {% endblock title %}
 
-<h3> Пол - {{item.get_gender_display}} </h3>
+{% block content %}
 
-<hr>
+    <h2> Информация об авторе: </h2>
 
-<h2> Книги автора: </h2>
+    <h3> Автор - {{item.name}} {{item.last_name}} </h3>
 
-<ul>
-    {% for book in item.book_set.all %}
-        <li>
-            <h3> {{book.title}} </h3>
-        </li>
-    {% endfor %}
-</ul>
+    <h3> Пол - {{item.get_gender_display}} </h3>
+
+    <hr>
+
+    <h2> Книги автора: </h2>
+
+    <ul>
+        {% for book in item.book_set.all %}
+            <li>
+                <h3> {{book.title}} </h3>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}

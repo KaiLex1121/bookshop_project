@@ -12,4 +12,5 @@ urlpatterns = [
     path('characters/', views.get_characters),
     path('characters/<int:id>/', views.get_character_by_id, name='character_by_id'),
     path('characters/<slug:character_slug>/', views.get_character_by_slug, name='character_by_slug'),
+    path('feedback/', views.create_feedback, name='feedback_creation')
 ]

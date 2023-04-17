@@ -1,15 +1,28 @@
 from django.contrib import admin
-from .models import Book, BookAuthor, Character
+from .models import Book, BookAuthor, Character, Relic, FeedBackModel
 from django.db.models import QuerySet
 from django.utils.text import slugify
 from django.http import HttpRequest
 from typing import Any, Optional, List, Tuple
 
 
+@admin.register(FeedBackModel)
+class FeedBackModelAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'description', 'rating')
+
+
+@admin.register(Relic)
+class RelicAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'character')
+    prepopulated_fields = {
+        "slug": ('name',)
+    }
+
+
 @admin.register(Character)
 class CharacterAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'character_type')
-    list_editable = ('description', 'character_type')
+    list_display = ('name', 'description', 'character_type', 'character_relic')
+    list_editable = ('description', 'character_type', 'character_relic')
     prepopulated_fields = {
         "slug": ('name',)
     }

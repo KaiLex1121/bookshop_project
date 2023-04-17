@@ -2,6 +2,33 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
+class FeedBackModel(models.Model):
+
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=60)
+    description = models.TextField()
+    rating = models.IntegerField(validators=(MaxValueValidator(5),))
+
+    @classmethod
+    def create_record(cls, data):
+        cls.objects.create(
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            description=data['description'],
+            rating=data['rating']
+        )
+
+
+class Relic(models.Model):
+
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=400, null=True, blank=True)
+    slug = models.SlugField(null=False, db_index=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
 class Character(models.Model):
 
     MAIN = 'main'
@@ -15,6 +42,7 @@ class Character(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100, null=True, blank=True)
     character_type = models.CharField(max_length=5, choices=CHARACTER_TYPE_CHOICES)
+    character_relic = models.OneToOneField(Relic, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(null=False, db_index=True)
 
     def __str__(self) -> str:
@@ -63,4 +91,4 @@ class Book(models.Model):
     characters = models.ManyToManyField(Character)
 
     def __str__(self) -> str:
-        return str(self.__dict__)
+        return str(self.title)

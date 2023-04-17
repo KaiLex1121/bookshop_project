@@ -1,17 +1,25 @@
-<h2> Информация о книге: </h2>
+{% extends 'base.html' %}
 
-<h3> Название - {{item.title}} </h3>
+{% block title %} {{item}} {% endblock title %}
 
-<h3> Рейтинг - {{item.rating}} </h3>
+{% block content %}
 
-<h3> Автор - {{item.author.name}} {{item.author.last_name}} </h3>
+    <h2> Информация о книге: </h2>
 
-<h3> Персонажи - {{item.characters.all}}
+    <h3> Название - {{item.title}} </h3>
 
-<hr>
+    <h3> Рейтинг - {{item.rating}} </h3>
 
-<h2> Информация об авторе: </h2>
+    <h3> Автор - {{item.author.name}} {{item.author.last_name}} </h3>
 
-<h3> Псевдоним - {{item.author.name}} {{item.author.last_name}} </h3>
+    <h3> Персонажи - {{item.characters.all}}
 
-<h3> Пол - {{item.author.get_gender_display}} </h3><h3> Персонажи - {{item.characters.all}}
+    <hr>
+
+    <h2> Информация об авторе: </h2>
+
+    <h3> Псевдоним - {{item.author.name}} {{item.author.last_name}} </h3>
+
+    <h3> Пол - {{item.author.get_gender_display}} </h3><h3> Персонажи - {{item.characters.all}}
+
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+
+  <link rel="stylesheet" href="{% static 'book_app/css/feedback_form.css' %}">
+
+{% endblock head %}
+
+
+{% block title %} Обратная связь {% endblock title %}
+
+
+{% block content %}
+
+<h2> Leave your comment </h2>
+
+<form method='post'>
+
+  {% csrf_token %}
+
+  {% for field in form %}
+
+    <div class="form-style">
+      {{ field.errors }}
+      {{ field.label_tag }}
+      {{ field }}
+    </div>
+
+  {% endfor %}
+
+  <button> Submit </button>
+
+</form>
+
+{% endblock content %}

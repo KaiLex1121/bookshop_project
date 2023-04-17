@@ -1,10 +1,34 @@
 from django.shortcuts import render
-from . import models
+from . import models, forms
 from django.db.models import Count, Model
 from django.urls import reverse
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.http.request import HttpRequest
 from typing import Type
+
+
+def create_feedback(request: HttpRequest) -> HttpResponse:
+
+    template_path = 'book_app/feedback_form.html'
+
+    if request.method == "POST":
+
+        form = forms.FeedBackForm(request.POST)
+
+        if form.is_valid():
+
+            template_path = 'book_app/successful_feedback.html'
+
+            models.FeedBackModel.create_record(data=form.cleaned_data)
+
+    else:
+        form = forms.FeedBackForm()
+
+    context_data = {
+        'form': form
+    }
+
+    return render(request, template_name=template_path, context=context_data)
 
 
 def show_items_from_model(request: HttpRequest, *, the_model: Type[Model], html_path: str) -> HttpResponse:
