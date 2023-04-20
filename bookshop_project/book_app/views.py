@@ -1,34 +1,45 @@
 from django.shortcuts import render
-from . import models, forms
 from django.db.models import Count, Model
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.http.request import HttpRequest
+from django import views
+from django.views.generic import ListView, TemplateView, DetailView, FormView, UpdateView
+from . import models, forms
 from typing import Type
 
 
-def create_feedback(request: HttpRequest) -> HttpResponse:
+class DetailFeedback(DetailView):
+    template_name = 'book_app/detail_feedback.html'
+    model = models.FeedBackModel
+    context_object_name = 'feedback'
 
-    template_path = 'book_app/feedback_form.html'
 
-    if request.method == "POST":
+class ListFeedback(ListView):
+    template_name = 'book_app/feedback_list.html'
+    model = models.FeedBackModel
+    context_object_name = 'feedbacks'
 
-        form = forms.FeedBackForm(request.POST)
 
-        if form.is_valid():
+class SuccessfulFeedback(TemplateView):
+    template_name = 'book_app/successful_feedback.html'
 
-            template_path = 'book_app/successful_feedback.html'
 
-            models.FeedBackModel.create_record(data=form.cleaned_data)
+class CreateView(FormView):
+    template_name = 'book_app/feedback_form.html'
+    form_class = forms.FeedBackForm
+    success_url = reverse_lazy('feedback_success')
 
-    else:
-        form = forms.FeedBackForm()
+    def form_valid(self, form) -> HttpResponse:
+        form.save()
+        return super().form_valid(form)
 
-    context_data = {
-        'form': form
-    }
 
-    return render(request, template_name=template_path, context=context_data)
+class EditFeedback(UpdateView):
+    form_class = forms.FeedBackForm
+    model = models.FeedBackModel
+    success_url = reverse_lazy('feedback_success')
+    template_name = 'book_app/feedback_form.html'
 
 
 def show_items_from_model(request: HttpRequest, *, the_model: Type[Model], html_path: str) -> HttpResponse:
@@ -88,7 +99,6 @@ def get_author_by_id(request: HttpRequest, id: int) -> HttpResponseRedirect:
 def get_authors(request):
 
     return show_items_from_model(request, the_model=models.BookAuthor, html_path='book_app/authors.html')
-
 
 
 def get_book_by_slug(request, book_slug):

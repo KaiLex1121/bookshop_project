@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Список отзывов {% endblock title %}
+
+
+{% block content %}
+
+<h2> Список отзывов </h2>
+
+  {% for feedback in feedbacks %}
+
+    <div> {{feedback}} </div>
+
+  {% endfor %}
+
+{% endblock content %}

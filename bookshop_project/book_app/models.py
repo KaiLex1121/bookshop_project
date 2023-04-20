@@ -9,14 +9,8 @@ class FeedBackModel(models.Model):
     description = models.TextField()
     rating = models.IntegerField(validators=(MaxValueValidator(5),))
 
-    @classmethod
-    def create_record(cls, data):
-        cls.objects.create(
-            first_name=data['first_name'],
-            last_name=data['last_name'],
-            description=data['description'],
-            rating=data['rating']
-        )
+    def __str__(self) -> str:
+        return f'Комментарий № {self.id}'
 
 
 class Relic(models.Model):

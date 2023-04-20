@@ -12,5 +12,9 @@ urlpatterns = [
     path('characters/', views.get_characters),
     path('characters/<int:id>/', views.get_character_by_id, name='character_by_id'),
     path('characters/<slug:character_slug>/', views.get_character_by_slug, name='character_by_slug'),
-    path('feedback/', views.create_feedback, name='feedback_creation')
-]
+    path('feedback/edit_feedback/<int:pk>/', views.EditFeedback.as_view(), name='feedback_edit'),
+    path('feedback/successful/', views.SuccessfulFeedback.as_view(), name='feedback_success'),
+    path('feedback/create_feedback/', views.CreateView.as_view(), name='feedback_creation'),
+    path('feedback/<int:pk>/', views.DetailFeedback.as_view(), name='feedback_by_id'),
+    path('feedback/', views.ListFeedback.as_view(), name='feedback_list'),
+    ]
