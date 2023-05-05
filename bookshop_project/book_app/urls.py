@@ -17,4 +17,6 @@ urlpatterns = [
     path('feedback/create_feedback/', views.CreateView.as_view(), name='feedback_creation'),
     path('feedback/<int:pk>/', views.DetailFeedback.as_view(), name='feedback_by_id'),
     path('feedback/', views.ListFeedback.as_view(), name='feedback_list'),
+    path('feedback/upload_file', views.LoadFile.as_view(), name='load_file_form'),
+    path('feedback/successful_upload/', views.SuccesfulUpload.as_view(), name='upload_successful')
     ]

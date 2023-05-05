@@ -3,10 +3,32 @@ from django.db.models import Count, Model
 from django.urls import reverse, reverse_lazy
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.http.request import HttpRequest
-from django import views
-from django.views.generic import ListView, TemplateView, DetailView, FormView, UpdateView
+from django.views.generic import ListView, TemplateView, DetailView, FormView, UpdateView, View
 from . import models, forms
 from typing import Type
+
+class SuccesfulUpload(TemplateView):
+    template_name = 'book_app/successful_file_upload.html'
+
+
+class LoadFile(View):
+
+    def get_template_path(self):
+        return 'book_app/upload_file_form.html'
+
+    def get(self, request):
+        form = forms.LoadFileForm()
+        return render(request, self.get_template_path(), context={'form': form})
+
+    def post(self, request):
+        form = forms.LoadFileForm(request.POST, request.FILES)
+        file = request.FILES['uploaded_file']
+
+        if form.is_valid():
+            models.UploadedFiles.objects.create(uploaded_file=file)
+            return HttpResponseRedirect(reverse_lazy('upload_successful'))
+
+        return render(request, self.get_template_path(), context={'form': form})
 
 
 class DetailFeedback(DetailView):

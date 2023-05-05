@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+class UploadedFiles(models.Model):
+    uploaded_file = models.FileField(verbose_name='Файл', upload_to='uploaded_files')
 
 class FeedBackModel(models.Model):
 

@@ -1,9 +1,13 @@
 from django.contrib import admin
-from .models import Book, BookAuthor, Character, Relic, FeedBackModel
+from .models import Book, BookAuthor, Character, Relic, FeedBackModel, UploadedFiles
 from django.db.models import QuerySet
 from django.utils.text import slugify
 from django.http import HttpRequest
 from typing import Any, Optional, List, Tuple
+
+@admin.register(UploadedFiles)
+class UploadedFilesAdmin(admin.ModelAdmin):
+    list_display = ('uploaded_file',)
 
 
 @admin.register(FeedBackModel)

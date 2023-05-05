@@ -13,6 +13,10 @@ from . import models
 #     rating = forms.IntegerField(max_value=5)
 
 
+class LoadFileForm(forms.Form):
+    uploaded_file = forms.FileField(label='Файл')
+
+
 class FeedBackForm(forms.ModelForm):
 
     class Meta:
